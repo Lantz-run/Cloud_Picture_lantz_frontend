@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # lantz-picture-frontend
 
 This template should help get you started developing with Vue 3 in Vite.
@@ -42,3 +43,7 @@ npm run lint
 # Cloud_Picture_lantz
 基于Vue3+Ant Design Vue组件库的智能协同云图库
 >>>>>>> a5cbb2bf208a51596d670824bf89b2a01ed00a78
+=======
+# Cloud_Picture_lantz_frontend
+基于Vue3 + Ant Design Vue 组件库的智能协同云图库
+>>>>>>> 433c88970ee5eaa600d8e3a3eabfebebfb5968d7
