@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ACCESS_ENUMS from '@/access/accessEnums'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,7 +33,7 @@ const router = createRouter({
       name: '用户管理页',
       component: () => import('../layouts/admin/UserManagePage.vue'),
       meta: {
-        // access:
+        access: ACCESS_ENUMS.ADMIN,
       }
     },
     {
@@ -40,16 +41,18 @@ const router = createRouter({
       name: '用户编辑页',
       component: () => import('../layouts/admin/UserEditPage.vue'),
       meta: {
-        // access:
-      }
+        access: ACCESS_ENUMS.ADMIN,
+      },
     },
     {
       path: '/user/profile',
       name: '个人中心',
       component: () => import('../layouts/user/UserProfilePage.vue'),
-      meta: {
-        // access:
-      }
+    },
+    {
+      path: '/noAuth',
+      name: '无权限',
+      component: () => import('../views/noAuthView.vue'),
     },
   ],
 })
