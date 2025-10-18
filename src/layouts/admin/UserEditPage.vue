@@ -1,7 +1,7 @@
 <template>
   <div id="user-edit-page">
-    <a-card 
-      title="编辑用户信息" 
+    <a-card
+      title="编辑用户信息"
       :bordered="false"
       class="edit-card"
     >
@@ -15,7 +15,7 @@
         <a-form-item label="用户账号" name="userAccount">
           <a-input v-model:value="formState.userAccount" disabled />
         </a-form-item>
-        
+
         <a-form-item label="用户昵称" name="userName">
           <a-input v-model:value="formState.userName" placeholder="请输入用户昵称" />
         </a-form-item>
@@ -63,7 +63,7 @@ const formRef = ref()
 
 // 表单数据
 const formState = reactive({
-  id: '',
+  id: 0,
   userAccount: '',
   userName: '',
   userAvatar: '',
@@ -87,7 +87,7 @@ const responsiveWrapperCol = computed(() => {
 })
 
 // 获取用户信息
-const fetchUserInfo = async (id: string) => {
+const fetchUserInfo = async (id: number) => {
   try {
     const res = await getUserByIdUsingGet({ id })
     if (res.data.code === 0 && res.data.data) {
@@ -107,7 +107,7 @@ const handleSubmit = async () => {
     const res = await updateUserUsingPost(formState)
     if (res.data.code === 0) {
       message.success('更新用户信息成功')
-      router.push('/admin/userManage')
+      await router.push('/admin/userManage')
     } else {
       message.error('更新用户信息失败: ' + res.data.message)
     }
@@ -123,7 +123,7 @@ const handleCancel = () => {
 
 // 页面加载时获取用户信息
 onMounted(() => {
-  const id = route.query.id as string
+  const id = route.query.id
   if (id) {
     fetchUserInfo(id)
   }
@@ -201,4 +201,4 @@ onMounted(() => {
     justify-content: center;
   }
 }
-</style> 
+</style>

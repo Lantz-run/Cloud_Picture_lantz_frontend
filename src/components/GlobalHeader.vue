@@ -9,6 +9,12 @@
           </div>
         </RouterLink>
       </a-col>
+
+      <!-- 分隔线 -->
+      <a-col v-if="!isMobile" class="divider-col">
+        <div class="vertical-divider"></div>
+      </a-col>
+
       <a-col flex="auto" class="menu-col">
         <!-- 桌面端菜单 -->
         <div v-if="!isMobile" class="menu-wrapper" :class="{ 'menu-collapsed': collapsed }">
@@ -43,6 +49,12 @@
           </template>
         </a-button>
       </a-col>
+
+      <!-- 分隔线 -->
+      <a-col v-if="!isMobile && loginUserStore.loginUser.id" class="divider-col">
+        <div class="vertical-divider"></div>
+      </a-col>
+
       <a-col :flex="headerUserWidth" class="user-col">
         <div class="user-login-status">
           <div v-if="loginUserStore.loginUser.id">
@@ -131,6 +143,7 @@
     </a-drawer>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { computed, h, ref, watch } from 'vue'
 import {
@@ -164,6 +177,16 @@ const originItems = [
     icon: () => h(TeamOutlined),
     label: '用户管理',
     title: '用户管理',
+  },
+  {
+    key: '/add_picture',
+    label: '创建图片',
+    title: '创建图片',
+  },
+  {
+    key: '/admin/picture_manager',
+    label: '图片管理',
+    title: '图片管理',
   },
   {
     key: '/about',
@@ -243,7 +266,7 @@ const toggleCollapsed = () => {
 // 过滤菜单项
 const filterMenus = (menus = [] as MenuProps['items']) => {
   return menus?.filter((menu) => {
-    if (menu?.key?.startsWith('/admin')) {
+    if (menu?.key && typeof menu.key === 'string' && menu.key.startsWith('/admin')) {
       const loginUser = loginUserStore.loginUser
       if (!loginUser || loginUser.userRole !== 'admin') {
         return false
@@ -314,6 +337,7 @@ router.afterEach((to, from, next) => {
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  padding-right: 16px;
 }
 
 .menu-col {
@@ -322,6 +346,7 @@ router.afterEach((to, from, next) => {
   justify-content: space-between;
   min-width: 0;
   flex: 1;
+  padding: 0 16px;
 }
 
 .user-col {
@@ -329,6 +354,23 @@ router.afterEach((to, from, next) => {
   align-items: center;
   justify-content: flex-end;
   flex-shrink: 0;
+  padding-left: 16px;
+}
+
+/* 新增分隔线列样式 */
+.divider-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1px;
+}
+
+.vertical-divider {
+  height: 24px;
+  width: 1px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 1px;
 }
 
 .menu-wrapper {
@@ -358,17 +400,21 @@ router.afterEach((to, from, next) => {
   border: none;
   line-height: 64px;
   white-space: nowrap;
+  border-radius: 8px;
+  margin-left: 8px;
 }
 
 .title-bar {
   display: flex;
   align-items: center;
   white-space: nowrap;
+  padding: 8px 0;
 }
 
 .title {
   color: black;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 600;
   margin-left: 16px;
   white-space: nowrap;
 }
@@ -392,7 +438,6 @@ router.afterEach((to, from, next) => {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 16px;
   white-space: nowrap;
 }
 
@@ -437,17 +482,21 @@ router.afterEach((to, from, next) => {
   margin: 0 4px;
   border-radius: 4px;
   white-space: nowrap;
+  font-weight: 500;
 }
 
 :deep(.menu .ant-menu-item:hover) {
   color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
 }
 
 :deep(.menu .ant-menu-item-selected) {
   color: #fff;
-  background: rgba(255, 255, 255, 0.2);
-  font-weight: 500;
+  background: rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 :deep(.menu .ant-menu-item .anticon) {
@@ -455,11 +504,11 @@ router.afterEach((to, from, next) => {
 }
 
 :deep(.menu .ant-menu-overflow-item) {
-  padding: 0 8px;
+  padding: 0 12px;
 }
 
 :deep(.menu .ant-menu-overflow-item-rest) {
-  padding: 0 8px;
+  padding: 0 12px;
 }
 
 /* 添加内容区域的顶部边距，防止被固定导航栏遮挡 */
@@ -477,6 +526,23 @@ router.afterEach((to, from, next) => {
     height: 40px;
   }
 
+  .title {
+    font-size: 16px;
+    margin-left: 12px;
+  }
+
+  .logo-col {
+    padding-right: 12px;
+  }
+
+  .menu-col {
+    padding: 0 12px;
+  }
+
+  .user-col {
+    padding-left: 12px;
+  }
+
   :deep(body) {
     padding-top: 56px;
   }
@@ -492,12 +558,29 @@ router.afterEach((to, from, next) => {
     height: 32px;
   }
 
+  .title {
+    font-size: 14px;
+    margin-left: 8px;
+  }
+
   #globalHeader {
     padding: 0 12px;
   }
 
-  .user-login-status {
+  .logo-col {
     padding-right: 8px;
+  }
+
+  .menu-col {
+    padding: 0 8px;
+  }
+
+  .user-col {
+    padding-left: 8px;
+  }
+
+  .user-login-status {
+    padding-right: 0;
   }
 
   :deep(body) {

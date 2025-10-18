@@ -13,9 +13,6 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
     {
@@ -48,6 +45,16 @@ const router = createRouter({
       path: '/user/profile',
       name: '个人中心',
       component: () => import('../layouts/user/UserProfilePage.vue'),
+    },
+    {
+      path: '/add_picture',
+      name: '创建图片',
+      component: () => import('../layouts/picture/AddPicturePage.vue'),
+    },
+    {
+      path: '/admin/picture_manager',
+      name: '图片管理',
+      component: () => import('../layouts/admin/PictureManagerPage.vue'),
     },
     {
       path: '/noAuth',
