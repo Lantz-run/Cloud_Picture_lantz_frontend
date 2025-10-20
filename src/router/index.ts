@@ -57,6 +57,12 @@ const router = createRouter({
       component: () => import('../layouts/admin/PictureManagerPage.vue'),
     },
     {
+      path: '/picture/:id',
+      name: '图片详情',
+      component: () => import('../layouts/picture/PictureDetailsPage.vue'),
+      props: true,
+    },
+    {
       path: '/noAuth',
       name: '无权限',
       component: () => import('../views/noAuthView.vue'),
